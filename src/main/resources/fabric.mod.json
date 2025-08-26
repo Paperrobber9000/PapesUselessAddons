@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "papes-useless-addons",
+  "version": "${version}",
+  "name": "Pape's Useless Addons",
+  "description": "A few little meteor things here and there.",
+  "authors": [
+    "Paperrobber9000"
+  ],
+  "contact": {
+    "repo": "https://github.com/MeteorDevelopment/meteor-addon-template"
+  },
+  "icon": "assets/template/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "meteor": [
+      "com.pape.uselessaddons.PapesUselessAddons"
+    ]
+  },
+  "mixins": [
+    "pape.mixins.json",
+    "pape-meteor.mixins.json"
+  ],
+  "custom": {
+    "meteor-client:color": "224,134,0"
+  },
+  "depends": {
+    "java": ">=21",
+    "minecraft": ["${mc_version}"],
+    "meteor-client": "*"
+  }
+}

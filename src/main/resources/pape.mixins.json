@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.pape.uselessaddons.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "papes-useless-addons-refmap.json",
+  "client": [
+    "BlockStateMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+	"defaultObfuscationEnv": "named"
+}

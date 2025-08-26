@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "com.pape.uselessaddons.mixin.meteor",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "papes-useless-addons-refmap.json",
+  "client": [
+    "NametagsMixin",
+	"BetterChatMixin",
+	"accessor.NametagsAccessor",
+	"accessor.BetterChatAccessor",
+	"accessor.MeteorTextHudAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+	"defaultObfuscationEnv": "named"
+}
