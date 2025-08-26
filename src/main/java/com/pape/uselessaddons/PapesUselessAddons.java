@@ -28,12 +28,7 @@ public class PapesUselessAddons extends MeteorAddon {
 
     @Override
     public void onInitialize() {
-        LOG.info("Epic stuff dropping");
-        
-        /* TODO:
-         * - Make rainbow text in chat notify animate (optional)
-         * - Maybe a module that's called ChatMimic that lets you repeat chat messages, with options like a blacklist/whitelist regex, capitalization, character limits, delay, rate limit, etc.
-         */
+        LOG.info("PUA activad, epic stuff dropping...");
         
         SystemErrFilterUtil.install(); // hides spammy meteor error messages that don't matter
         
