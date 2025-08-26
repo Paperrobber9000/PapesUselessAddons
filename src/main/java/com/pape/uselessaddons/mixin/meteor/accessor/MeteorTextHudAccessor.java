@@ -7,7 +7,7 @@ import meteordevelopment.meteorclient.systems.hud.HudElementInfo;
 import meteordevelopment.meteorclient.systems.hud.elements.MeteorTextHud;
 import meteordevelopment.meteorclient.systems.hud.elements.TextHud;
 
-@Mixin(MeteorTextHud.class)
+@Mixin(value = MeteorTextHud.class, remap = false)
 public interface MeteorTextHudAccessor {
 
 	@Invoker("addPreset")

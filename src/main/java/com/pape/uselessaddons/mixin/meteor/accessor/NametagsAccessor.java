@@ -12,15 +12,15 @@ import net.minecraft.entity.EntityType;
 
 @Mixin(Nametags.class)
 public interface NametagsAccessor {
-    @Accessor("scale")
+    @Accessor(value = "scale", remap = false)
     Setting<Double> getScale();
 
-    @Accessor("nameColor")
+    @Accessor(value = "nameColor", remap = false)
     Setting<SettingColor> getNameColor();
 
-    @Accessor("background")
+    @Accessor(value = "background", remap = false)
     Setting<SettingColor> getBackground();
     
-    @Accessor("entities")
+    @Accessor(value = "entities", remap = false)
     Setting<Set<EntityType<?>>> getEntities();
 }

@@ -62,6 +62,6 @@ public class PapesUselessAddons extends MeteorAddon {
 
     @Override
     public GithubRepo getRepo() {
-        return new GithubRepo("MeteorDevelopment", "meteor-addon-template");
+        return new GithubRepo("Paperrobber9000", "PapesUselessAddons");
     }
 }

@@ -72,7 +72,8 @@ public class BetterChatMixin extends Module {
     
     @Unique Logger LOG = PapesUselessAddons.LOG;
     
-    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lmeteordevelopment/meteorclient/systems/modules/misc/BetterChat;antiSpam:Lmeteordevelopment/meteorclient/settings/Setting;", shift = At.Shift.AFTER))
+    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lmeteordevelopment/meteorclient/systems/modules/misc/BetterChat;antiSpam:Lmeteordevelopment/meteorclient/settings/Setting;", shift = At.Shift.AFTER)
+    , remap = false)
     private void addHideRepeatsSettings(CallbackInfo ci) {
     	
     	BetterChatAccessor bca = (BetterChatAccessor) this;
@@ -105,7 +106,8 @@ public class BetterChatMixin extends Module {
     	SettingsOfEpicness.hideRepeatsDepth = hideRepeatsDepth;
     }
     
-    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lmeteordevelopment/meteorclient/systems/modules/misc/BetterChat;sgFilter:Lmeteordevelopment/meteorclient/settings/SettingGroup;", shift = At.Shift.AFTER))
+    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lmeteordevelopment/meteorclient/systems/modules/misc/BetterChat;sgFilter:Lmeteordevelopment/meteorclient/settings/SettingGroup;", shift = At.Shift.AFTER)
+    , remap = false)
     private void addNotifySettings(CallbackInfo ci) {
     	
     	if (sgNotify == null) sgNotify = settings.createGroup("Notify");
@@ -219,6 +221,7 @@ public class BetterChatMixin extends Module {
     	        value = "INVOKE",
     	        target = "Lit/unimi/dsi/fastutil/ints/IntList;removeInt(I)I"
     	    )
+    	    , remap = false
     	)
     	private int skipRemoveInt(IntList list, int index) {
     	    // do nothing, return a dummy value

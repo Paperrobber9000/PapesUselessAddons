@@ -15,19 +15,19 @@ import net.minecraft.text.Text;
 @Mixin(BetterChat.class)
 public interface BetterChatAccessor {
     
-    @Accessor("antiSpam")
+    @Accessor(value = "antiSpam", remap = false) 
     Setting<Boolean> antiSpam();
     
-    @Accessor("antiSpamDepth")
+    @Accessor(value = "antiSpamDepth", remap = false)
     Setting<Integer> antiSpamDepth();
     
-    @Accessor("sgFilter")
+    @Accessor(value = "sgFilter", remap = false)
     SettingGroup sgFilter();
     
-    @Accessor("filterRegex")
+    @Accessor(value = "filterRegex", remap = false)
     Setting<Boolean> filterRegex();
     
-    @Accessor("filterRegexList")
+    @Accessor(value = "filterRegexList", remap = false)
     List<Pattern> filterRegexList();
     
     @Invoker("appendAntiSpam")

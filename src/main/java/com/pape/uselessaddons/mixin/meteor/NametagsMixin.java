@@ -37,7 +37,8 @@ public abstract class NametagsMixin extends Module {
     @Unique
     @Nullable Setting<Boolean> showXpOrbValues = null;
 
-    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lmeteordevelopment/meteorclient/systems/modules/render/Nametags;scale:Lmeteordevelopment/meteorclient/settings/Setting;", shift = At.Shift.AFTER))
+    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lmeteordevelopment/meteorclient/systems/modules/render/Nametags;scale:Lmeteordevelopment/meteorclient/settings/Setting;", shift = At.Shift.AFTER)
+    , remap = false)
     private void addXpLabelSettings(CallbackInfo ci) {
     	showXpOrbValues = sgMisc.add(
             new BoolSetting.Builder()
