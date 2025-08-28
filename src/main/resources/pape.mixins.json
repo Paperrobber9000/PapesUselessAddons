@@ -4,7 +4,9 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "papes-useless-addons-refmap.json",
   "client": [
-    "BlockStateMixin"
+    "BlockStateMixin",
+	"UnlockCamera.BipedEntityModelMixin",
+	"UnlockCamera.EntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

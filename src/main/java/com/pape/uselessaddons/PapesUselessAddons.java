@@ -19,6 +19,7 @@ import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 
 import com.pape.uselessaddons.commands.Score;
 import com.pape.uselessaddons.modules.RemoveBlockHitboxes;
+import com.pape.uselessaddons.modules.UnlockElytraCam;
 
 import org.slf4j.Logger;
 
@@ -33,6 +34,7 @@ public class PapesUselessAddons extends MeteorAddon {
         SystemErrFilterUtil.install(); // hides spammy meteor error messages that don't matter
         
         Modules.get().add(new RemoveBlockHitboxes());
+        Modules.get().add(new UnlockElytraCam());
         
         Commands.add(new Score());
         
