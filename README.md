@@ -1,8 +1,9 @@
 # PapesUselessAddons
 A very small add-on for meteor client that adds a few things that aren't in other add-ons.
 
-## Module
+## Modules
 - **Remove Block Hitboxes:** A module that lets you interact through blocks. Blocks selected will not have a wireframe when looked at, and any interactions afect what is behind the block instead. Useful for interacting through portals.
+- **Unlock Elytra Camera:** When flying, allow the camera to extend past 90/-90 in pitch. Now you can do sick flps!
 
 ## New Settings
 - **Hide Repeats:** A setting for BetterChat's antispam that hides messages if they have been repeated a certain number of times.
