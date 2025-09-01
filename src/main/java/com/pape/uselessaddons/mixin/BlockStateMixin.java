@@ -44,7 +44,7 @@ public class BlockStateMixin {
     	RemoveBlockHitboxes rbh = Modules.get() != null ? Modules.get().get(RemoveBlockHitboxes.class) : null;
 
         if (rbh != null && rbh.isActive() && RemoveBlockHitboxes.shouldRemoveHitbox(((BlockState)(Object)this).getBlock())) {
-        	return net.minecraft.util.shape.VoxelShapes.cuboid(0, -1, 0, 1, -0.999, 1);
+        	return VoxelShapes.empty();
         }
         return original;
     }

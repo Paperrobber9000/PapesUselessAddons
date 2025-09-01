@@ -62,7 +62,8 @@ public class BetterChatMixin extends Module {
     @Unique @Nullable Setting<Boolean> hideRepeats = null;
     @Unique @Nullable Setting<Integer> hideRepeatsDepth = null;
     
-    @Unique @Nullable Setting<Boolean> notify = null;
+    @Unique @Nullable Setting<Boolean> notify = null;    
+    @Unique @Nullable Setting<Boolean> notifyUsername = null;
     @Unique @Nullable Setting<List<String>> notifyRegex = null;
     @Unique @Nullable Setting<List<SoundEvent>> notifySound = null;
     @Unique @Nullable Setting<Double> notifySoundPitch = null;
@@ -122,6 +123,17 @@ public class BetterChatMixin extends Module {
                 );
     	}
     	
+    	if (SettingsOfEpicness.notifyUsername == null) {
+    		notifyUsername = sgNotify.add(
+                    new BoolSetting.Builder()
+                    .name("username")
+                    .description("Whether to trigger a notification when your username is seen in chat.")
+    		        .visible(notify::get)
+                    .defaultValue(true)
+                    .build()
+                );
+    	}
+    	
     	if (SettingsOfEpicness.notifyRegex == null) {
     		notifyRegex = sgNotify.add(
     				new StringListSetting.Builder()
@@ -138,7 +150,7 @@ public class BetterChatMixin extends Module {
     		        .name("sound-to-play")
     		        .description("Sound that will be played when a chat message matches the notification regex.")
     		        .visible(notify::get)
-    		        .defaultValue(Collections.singletonList(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP))
+    		        .defaultValue(Collections.singletonList(SoundEvents.BLOCK_NOTE_BLOCK_BELL.value()))
     		        .build()
     		    );
     	}
@@ -192,6 +204,7 @@ public class BetterChatMixin extends Module {
     	}
     	
     	SettingsOfEpicness.notify = notify;
+    	SettingsOfEpicness.notifyUsername = notifyUsername;
     	SettingsOfEpicness.notifyRegex = notifyRegex;
     	SettingsOfEpicness.notifySound = notifySound;
     	SettingsOfEpicness.notifySoundPitch = notifySoundPitch;

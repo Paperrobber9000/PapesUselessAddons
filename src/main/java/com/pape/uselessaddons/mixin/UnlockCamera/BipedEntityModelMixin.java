@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(BipedEntityModel.class)
 public abstract class BipedEntityModelMixin {
 	
-    // Prevent arms going crazy when punching
+    // Prevent arms going crazy when punching (Does this need to be here? Prolly not but fuck iiiiiit)
     @ModifyExpressionValue(method = "animateArms", at = @At(value = "FIELD", target = "Lnet/minecraft/client/model/ModelPart;pitch:F", opcode = Opcodes.GETFIELD))
     private float unlockedCamera$modifyArmPitch(float pitch) {
         final float PI = (float) Math.PI;

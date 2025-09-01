@@ -1,6 +1,9 @@
 package com.pape.uselessaddons.modules;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.pape.uselessaddons.PapesUselessAddons;
 
 import meteordevelopment.meteorclient.settings.BlockListSetting;
@@ -10,6 +13,8 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.utils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 

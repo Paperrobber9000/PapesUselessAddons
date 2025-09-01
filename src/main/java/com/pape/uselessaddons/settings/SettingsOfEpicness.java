@@ -18,6 +18,7 @@ public class SettingsOfEpicness {
     public static Setting<Integer> hideRepeatsDepth;
     
     public static Setting<Boolean> notify;
+    public static Setting<Boolean> notifyUsername;
     public static Setting<List<String>> notifyRegex;
     public static Setting<List<SoundEvent>> notifySound;
     public static Setting<Double> notifySoundPitch;

@@ -53,60 +53,95 @@ public class BetterChatNotifyUtil {
     
     @EventHandler
     private void onMessageReceive(ReceiveMessageEvent event) {
+    	
+    	// Don't even bother with anything if notify is off.
+    	if (!SettingsOfEpicness.notify.get()) return;
+    	
         Text message = event.getMessage();
         
+        // If the message would have been filtered by filter regex, return early so there isn't a ghost ping
         if (bca.filterRegex().get()) {
             String messageString = message.getString();
             for (Pattern pattern : bca.filterRegexList()) {
-                if (pattern.matcher(messageString).find()) {
-                    return;	// If the message would have been filtered by filter regex, return early so there isn't a ghost ping
-                }
+                if (pattern.matcher(messageString).find()) return;	
             }
         }
         
+        // If the message would have been hidden by hide repeats, return early so there isn't a ghost ping
         Setting<Boolean> hr = SettingsOfEpicness.hideRepeats;
-        
         if (hr != null && hr.get()) {
             Text antiSpammed = bca.callAppendAntiSpam(message);
             if (antiSpammed != null && antiSpammed.getString().isBlank()) return;
         }
+        
+        
+        String messageString = message.getString();
 
-        if (SettingsOfEpicness.notify.get()) {
-            String messageString = message.getString();
-            compileFilterRegexList();	// Compile here, because trying to do it from the mixin doesn't work. This guarantees the list is updated.
-            for (Pattern pattern : notifyRegexList) {
+    	SettingColor highlightColor = SettingsOfEpicness.notifyHighlightColor.get();
+    	TextColor textColor = TextColor.fromRgb(highlightColor.getPacked());
+	    Text highlightMsg = message;
+	    
+	    // Booleans that we change to trigger events. Prevents things from happening twice if there's a username AND a regex match in a single message.
+	    boolean playNotifSound = false;
+	    boolean hasNotifSound = true;
+        
+        compileFilterRegexList();	// Compile here, because trying to do it from the mixin doesn't work. This guarantees the list is updated.
+        if (!notifyRegexList.isEmpty()) {
+        	for (Pattern pattern : notifyRegexList) {
                 if (pattern.matcher(messageString).find()) {
-                	if (!SettingsOfEpicness.notifySound.get().isEmpty()) {
-                		for (int i = 0; i < SettingsOfEpicness.notifySound.get().size(); i++) {
-                    		mc.getSoundManager().play(PositionedSoundInstance.master(SettingsOfEpicness.notifySound.get().get(i),
-                        			SettingsOfEpicness.notifySoundPitch.get().floatValue(), SettingsOfEpicness.notifySoundVolume.get().floatValue()));
-                		}
-                	} else {
-                        ChatUtils.sendMsg(Text.literal("No notification sound selected! Please add a sound to play when notified in BetterChat settings."));
-                	}
                 	
-                	if (SettingsOfEpicness.notifyHighlight.get()) {
-                    	SettingColor highlightColor = SettingsOfEpicness.notifyHighlightColor.get();
-                    	TextColor textColor = TextColor.fromRgb(highlightColor.getPacked());
-                    	
-                	    Text highlighted = highlightMatches(messageString, pattern, textColor);
-                	    
-                	    event.setMessage(highlighted);
-                	}
+                	if (!SettingsOfEpicness.notifySound.get().isEmpty()) 
+                		playNotifSound = true;
+                	else 
+                		hasNotifSound = false;
+                	
+                	if (SettingsOfEpicness.notifyHighlight.get()) 
+                	    highlightMsg = highlightMatches(highlightMsg, pattern, textColor);
                 }
             }
         }
+        
+        if (SettingsOfEpicness.notifyUsername.get()) {
+            String username = MinecraftClient.getInstance().getSession().getUsername().toLowerCase();
+            String[] splitMessage = messageString.split(">");
+            String userlessMessage = "";
+            
+            for (int i = 0; i < splitMessage.length; i++) {
+            	if (!(i == 0 && splitMessage[i].toLowerCase().contains(username))) 
+            		userlessMessage += splitMessage[i];
+            }
+            
+            if (userlessMessage.toLowerCase().contains(username)) {
+            	if (!SettingsOfEpicness.notifySound.get().isEmpty()) 
+            		playNotifSound = true;
+            	else 
+            		hasNotifSound = false;
+            	
+            	if (SettingsOfEpicness.notifyHighlight.get())
+                	highlightMsg = highlightUsername(highlightMsg, username, textColor);
+            }
+        }
+        
+        if (playNotifSound) playNotificationSound();
+        if (!highlightMsg.equals(message)) event.setMessage(highlightMsg);
+        if (!hasNotifSound) ChatUtils.sendMsg(Text.literal("No notification sound selected! Please add a sound to play when notified in BetterChat settings."));
+        
     }
     
-    private Text highlightMatches(String message, Pattern pattern, TextColor highlightColor) {
-        Matcher matcher = pattern.matcher(message);
-        int lastEnd = 0;
+    private Text highlightMatches(Text message, Pattern pattern, TextColor highlightColor) {
+    	String fullStr = message.getString(); // flat text for searching
+        Matcher matcher = pattern.matcher(fullStr);
         MutableText result = Text.literal("");
+        
+        int lastEnd = 0;
 
         while (matcher.find()) {
             // Add text before the match (normal color)
             if (matcher.start() > lastEnd) {
-                result.append(Text.literal(message.substring(lastEnd, matcher.start())));
+            	result.append(message.copy().getSiblings().isEmpty()
+                        ? Text.literal(fullStr.substring(lastEnd, matcher.start()))
+                        : Text.literal(fullStr.substring(lastEnd, matcher.start()))
+                              .setStyle(message.getStyle()));
             }
 
             // Add the matched part (highlight color)
@@ -117,14 +152,65 @@ public class BetterChatNotifyUtil {
         }
 
         // Add the rest of the message after the last match
-        if (lastEnd < message.length()) {
-            result.append(Text.literal(message.substring(lastEnd)));
+        if (lastEnd < fullStr.length()) {
+            result.append(Text.literal(fullStr.substring(lastEnd))
+                    .setStyle(message.getStyle()));
         }
 
         return result;
     }
-
     
-    // TODO: The rest of the chat notify code (steal from betterchat and villager roller code rofl)
+    private Text highlightUsername(Text message, String username, TextColor highlightColor) {
+    	String fullStr = message.getString(); // flat text for searching
+    	String fullStrLwr = fullStr.toLowerCase();
+        MutableText result = Text.literal("");
+        
+        String[] splitMessage = fullStrLwr.split(">");
+        String userlessMessage = "";
+        
+        for (int i = 0; i < splitMessage.length; i++) {
+        	if (!(i == 0 && splitMessage[i].toLowerCase().contains(username))) 
+        		userlessMessage += splitMessage[i];
+        	else
+        		for (int j = 0; j <= splitMessage[i].length(); j++) {
+        			userlessMessage += ".";	// make it the same length as the original message, just without the username
+        		}
+        }
+
+        int lastEnd = 0;
+        int index;
+
+        while ((index = userlessMessage.indexOf(username, lastEnd)) != -1) {
+            // Add text before the username (normal color)
+            if (index > lastEnd) {
+                result.append(message.copy().getSiblings().isEmpty()
+                        ? Text.literal(fullStr.substring(lastEnd, index))
+                        : Text.literal(fullStr.substring(lastEnd, index))
+                              .setStyle(message.getStyle()));
+            }
+
+            // Add the username with highlight
+            result.append(Text.literal(fullStr.substring(index, index + username.length()))
+                    .setStyle(Style.EMPTY.withColor(highlightColor)));
+
+            // Move past this match
+            lastEnd = index + username.length();
+        }
+
+        // Add the rest of the message
+        if (lastEnd < fullStr.length()) {
+            result.append(Text.literal(fullStr.substring(lastEnd))
+                    .setStyle(message.getStyle()));
+        }
+
+        return result;
+    }
+    
+    private void playNotificationSound() {
+		for (int i = 0; i < SettingsOfEpicness.notifySound.get().size(); i++) {
+    		mc.getSoundManager().play(PositionedSoundInstance.master(SettingsOfEpicness.notifySound.get().get(i),
+        			SettingsOfEpicness.notifySoundPitch.get().floatValue(), SettingsOfEpicness.notifySoundVolume.get().floatValue()));
+		}
+    }
     
 }

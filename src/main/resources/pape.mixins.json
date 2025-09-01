@@ -6,7 +6,8 @@
   "client": [
     "BlockStateMixin",
 	"UnlockCamera.BipedEntityModelMixin",
-	"UnlockCamera.EntityMixin"
+	"UnlockCamera.EntityMixin",
+	"UnlockCamera.ClientPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

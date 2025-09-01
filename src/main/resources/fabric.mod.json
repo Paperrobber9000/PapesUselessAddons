@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "PapesUselessAddons",
+  "id": "papes-useless-addons",
   "version": "${version}",
   "name": "Pape's Useless Addons",
   "description": "A few little meteor things here and there.",

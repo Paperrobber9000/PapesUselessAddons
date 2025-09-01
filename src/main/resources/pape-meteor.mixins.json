@@ -6,9 +6,11 @@
   "client": [
     "NametagsMixin",
 	"BetterChatMixin",
+	"ESPBlockMixin",
 	"accessor.NametagsAccessor",
 	"accessor.BetterChatAccessor",
-	"accessor.MeteorTextHudAccessor"
+	"accessor.MeteorTextHudAccessor",
+	"accessor.BlockESPAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

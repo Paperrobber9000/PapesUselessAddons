@@ -23,12 +23,9 @@ import net.minecraft.entity.EntityType;
 
 @Mixin(value = Nametags.class)
 public abstract class NametagsMixin extends Module {
-//    @Shadow
+	
     @Final
-    private final SettingGroup sgMisc = settings.createGroup("Miscellaneous");
-
-//    @Shadow @Final
-//    private Setting<List<EntityType<?>>> entities;
+    private SettingGroup sgMisc;
 
     public NametagsMixin(Category category, String name, String description) {
         super(category, name, description);
@@ -37,16 +34,23 @@ public abstract class NametagsMixin extends Module {
     @Unique
     @Nullable Setting<Boolean> showXpOrbValues = null;
 
-    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lmeteordevelopment/meteorclient/systems/modules/render/Nametags;scale:Lmeteordevelopment/meteorclient/settings/Setting;", shift = At.Shift.AFTER)
+    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lmeteordevelopment/meteorclient/systems/modules/render/Nametags;sgItems:Lmeteordevelopment/meteorclient/settings/SettingGroup;", shift = At.Shift.AFTER)
     , remap = false)
     private void addXpLabelSettings(CallbackInfo ci) {
-    	showXpOrbValues = sgMisc.add(
-            new BoolSetting.Builder()
-                .name("xp-orb-labels")
-                .description("Displays XP value above experience orbs.")
-                .defaultValue(false)
-                .build()
-        );
+    	
+    	if (sgMisc == null) {
+            sgMisc = settings.createGroup("Miscellaneous");
+        }
+    	
+    	if (showXpOrbValues == null) {
+        	showXpOrbValues = sgMisc.add(
+                    new BoolSetting.Builder()
+                        .name("xp-orb-labels")
+                        .description("Displays XP value above experience orbs.")
+                        .defaultValue(false)
+                        .build()
+                );
+    	}
     	
     	SettingsOfEpicness.showXpOrbValues = showXpOrbValues;
     }
