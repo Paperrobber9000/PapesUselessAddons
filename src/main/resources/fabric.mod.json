@@ -10,7 +10,7 @@
   "contact": {
     "repo": "https://github.com/Paperrobber9000/PapesUselessAddons"
   },
-  "icon": "assets/template/icon.png",
+  "icon": "assets/papesuselessaddons/icon.png",
   "environment": "client",
   "entrypoints": {
     "meteor": [

@@ -17,7 +17,9 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 
-import com.pape.uselessaddons.commands.Score;
+import com.pape.uselessaddons.commands.AmogusStampedeCommand;
+import com.pape.uselessaddons.commands.ScoreCommand;
+import com.pape.uselessaddons.modules.AmogusStampede;
 import com.pape.uselessaddons.modules.RemoveBlockHitboxes;
 import com.pape.uselessaddons.modules.UnlockElytraCam;
 
@@ -35,8 +37,10 @@ public class PapesUselessAddons extends MeteorAddon {
         
         Modules.get().add(new RemoveBlockHitboxes());
         Modules.get().add(new UnlockElytraCam());
+        Modules.get().add(new AmogusStampede());
         
-        Commands.add(new Score());
+        Commands.add(new ScoreCommand());
+        Commands.add(new AmogusStampedeCommand());
         
         MeteorClient.EVENT_BUS.subscribe(new XpOrbLabelUtil());
         MeteorClient.EVENT_BUS.subscribe(new BetterChatNotifyUtil());
