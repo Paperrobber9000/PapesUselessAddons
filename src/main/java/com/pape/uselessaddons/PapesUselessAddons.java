@@ -49,8 +49,6 @@ public class PapesUselessAddons extends MeteorAddon {
 		HudElementInfo<TextHud>.Preset scorePreset = TextHudPresetUtil.SCORE;
         
         MeteorStarscript.ss.set("score", MeteorStarscriptScoreUtil::score);
-
-        LOG.info("ඞඞ ඩ ඞ ඞ්ඞ ඩ ඞ ඞ ඞඩ ඞ ඞ ඞ  oh shit oh fuck theres too many of them  ඞඞ ඞඩ ඞ ඞඞ ඞ්ඞඞ ඩ ඞ ඞඞ  ඩඞ්ඞ ඞ ඩ ඞ");
     }
 
     @Override
